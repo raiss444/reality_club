@@ -57,6 +57,7 @@ async function load() {
   if (state.q) params.set('q', state.q);
   try {
     const { data, total } = await api(`${state.table}?${params}`);
+    if (!data.length && state.page > 0) { state.page--; return load(); }
     state.total = total;
     renderTable(data);
     renderPager();
@@ -76,7 +77,11 @@ function renderTable(rows) {
 }
 
 function rowActions(row) {
-  return [h('button', { class: 'btn sm', onclick: () => showDetail(row.id) }, 'Detail')];
+  return [
+    h('button', { class: 'btn sm', onclick: () => showDetail(row.id) }, 'Detail'),
+    h('button', { class: 'btn sm', onclick: () => openForm({ row }) }, 'Edit'),
+    h('button', { class: 'btn sm danger', onclick: () => confirmDelete(row) }, 'Hapus'),
+  ];
 }
 
 function renderPager() {
@@ -98,7 +103,10 @@ async function showDetail(id) {
     openModal(h('div', {},
       h('h2', {}, `Detail ${def().label} #${row.id}`),
       h('dl', {}, items.map(([k, v]) => [h('dt', {}, k), h('dd', {}, v)])),
-      h('div', { class: 'actions' }, h('button', { class: 'btn', onclick: closeModal }, 'Tutup'))));
+      h('div', { class: 'actions' },
+        h('button', { class: 'btn danger', onclick: () => confirmDelete(row) }, 'Hapus'),
+        h('button', { class: 'btn', onclick: () => openForm({ row }) }, 'Edit'),
+        h('button', { class: 'btn', onclick: closeModal }, 'Tutup'))));
   } catch (e) { toast(e.message, true); }
 }
 
@@ -159,13 +167,40 @@ async function openForm({ row = null } = {}) {
     } finally { saveBtn.disabled = false; }
   });
 
-  openModal(h('div', {}, h('h2', {}, `Tambah ${def().label}`), form));
+  openModal(h('div', {}, h('h2', {}, row ? `Edit ${def().label} #${row.id}` : `Tambah ${def().label}`), form));
 }
 
-/** CREATE */
-async function submitForm(body, _row) {
-  await api(state.table, { method: 'POST', body: JSON.stringify(body) });
-  toast('Data berhasil ditambahkan');
+/** CREATE (POST) atau UPDATE (PUT) tergantung ada tidaknya row */
+async function submitForm(body, row) {
+  if (row) {
+    await api(`${state.table}/${row.id}`, { method: 'PUT', body: JSON.stringify(body) });
+    toast('Data berhasil diperbarui');
+  } else {
+    await api(state.table, { method: 'POST', body: JSON.stringify(body) });
+    toast('Data berhasil ditambahkan');
+  }
+}
+
+/* ───────── DELETE: dialog konfirmasi ───────── */
+function confirmDelete(row) {
+  const first = def().fields.find((f) => f.type === 'text' || f.type === 'email') || def().fields[0];
+  const label = String(row[first.name] ?? '#' + row.id);
+  const cascades = (def().cascades || []).map((t) => state.meta[t].label);
+  const delBtn = h('button', { class: 'btn danger-solid', onclick: async () => {
+    delBtn.disabled = true;
+    try {
+      await api(`${state.table}/${row.id}`, { method: 'DELETE' });
+      closeModal();
+      toast('Data berhasil dihapus');
+      await load();
+      await refreshCounts();
+    } catch (e) { toast(e.message, true); delBtn.disabled = false; }
+  } }, 'Ya, hapus');
+  openModal(h('div', {},
+    h('h2', {}, 'Hapus data?'),
+    h('p', {}, `${def().label} #${row.id} — “${label}” akan dihapus permanen.`),
+    cascades.length ? h('p', { class: 'warn' }, `Perhatian: data terkait di ${cascades.join(', ')} juga ikut terhapus.`) : null,
+    h('div', { class: 'actions' }, h('button', { class: 'btn', onclick: closeModal }, 'Batal'), delBtn)));
 }
 
 /* ───────── navigasi tabel ───────── */

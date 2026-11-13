@@ -54,4 +54,9 @@ function update(db, table, id, values) {
   return info.changes ? get(db, table, id) : null;
 }
 
-module.exports = { columnsOf, list, get, create, update };
+/** DELETE: hapus satu baris; true bila ada yang terhapus. */
+function remove(db, table, id) {
+  return db.prepare(`DELETE FROM ${table} WHERE id = ?`).run(id).changes > 0;
+}
+
+module.exports = { columnsOf, list, get, create, update, remove };

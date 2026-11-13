@@ -71,6 +71,17 @@ function createApp(db) {
   api.put('/:resource/:id', updateHandler(false));
   api.patch('/:resource/:id', updateHandler(true));
 
+  // ── DELETE ──
+  // Menghapus rilisan ikut menghapus tracklist-nya (FK ON DELETE CASCADE).
+  api.delete('/:resource/:id', (req, res) => {
+    try {
+      if (!crud.remove(db, req.params.resource, Number(req.params.id))) {
+        return res.status(404).json({ error: 'Data tidak ditemukan' });
+      }
+      res.status(204).end();
+    } catch (err) { dbError(err, res); }
+  });
+
   app.use('/api', api);
 
   // Website statis + panel admin

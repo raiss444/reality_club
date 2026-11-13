@@ -21,7 +21,7 @@ module.exports = {
     ],
   },
   releases: {
-    label: 'Releases (Diskografi)', orderBy: 'release_year DESC, id DESC', searchable: ['title', 'type'],
+    label: 'Releases (Diskografi)', cascades: ['tracks'], orderBy: 'release_year DESC, id DESC', searchable: ['title', 'type'],
     fields: [
       text('title', 'Judul', { required: true, max: 150, list: true }),
       { name: 'type', label: 'Jenis', type: 'select', options: ['Single', 'EP', 'Album'], required: true, list: true },

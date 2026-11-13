@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reality Club — Admin CRUD</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/realityclub.html">Reality Club<small>Admin Panel</small></a>
+  <nav id="tableNav" aria-label="Daftar tabel"></nav>
+</aside>
+<main>
+  <header class="topbar">
+    <h1 id="title">Memuat…</h1>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Cari…" aria-label="Cari data">
+      <button id="btnAdd" class="btn primary">+ Tambah</button>
+    </div>
+  </header>
+  <div id="tableWrap" class="table-wrap"></div>
+  <div id="pager" class="pager"></div>
+</main>
+
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<div id="toast" class="toast" role="status"></div>
+<script src="admin.js"></script>
+</body>
+</html>

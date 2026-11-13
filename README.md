@@ -12,7 +12,7 @@ SQLite** dan **operasi CRUD** untuk seluruh tabelnya, lengkap dengan REST API da
 | Tahap | WBS | Isi | Status |
 |---|---|---|---|
 | 1 | 2.2 | **Create** (Insert) dan **Read** (Select) | ✅ |
-| 2 | 2.3 | **Update** dan **Delete** | ⏳ |
+| 2 | 2.3 | **Update** dan **Delete** | ✅ |
 
 ## Menjalankan
 
@@ -56,6 +56,32 @@ curl -X POST http://localhost:3000/api/products \
   -H 'Content-Type: application/json' \
   -d '{"name":"Tote Bag","price":99000,"stock":20}'
 ```
+
+## API — Tahap 2 (Update & Delete)
+
+| Operasi | Metode & URL | Respons |
+|---|---|---|
+| Update (ganti penuh) | `PUT /api/:tabel/:id` — semua kolom wajib terpenuhi; kolom opsional yang tidak dikirim menjadi kosong | `200` baris terbaru / `404` / `422` / `409` |
+| Update (sebagian) | `PATCH /api/:tabel/:id` — hanya kolom yang dikirim yang berubah | `200` / `404` / `422` / `409` |
+| Delete | `DELETE /api/:tabel/:id` | `204` / `404` |
+
+Catatan: menghapus sebuah **rilisan** otomatis menghapus **tracklist**-nya (`ON DELETE CASCADE`);
+panel admin menampilkan peringatan sebelum penghapusan.
+
+```bash
+curl -X PATCH http://localhost:3000/api/products/1 -H 'Content-Type: application/json' -d '{"stock":15}'
+curl -X DELETE http://localhost:3000/api/faqs/4
+```
+
+## Panel admin
+
+Buka `http://localhost:3000/admin/` — sidebar berisi 9 tabel; tiap tabel mendukung pencarian, paging,
+**Detail** (Read), **+ Tambah** (Create), **Edit** (Update), dan **Hapus** (Delete, dengan konfirmasi).
+
+## Pengujian
+
+`npm test` menjalankan 78 kasus (`node:test`) yang mencakup keempat operasi pada semua 9 tabel:
+`tests/create-read.test.js` (tahap 1) dan `tests/update-delete.test.js` (tahap 2).
 
 ## Struktur
 

@@ -21,11 +21,12 @@ async function startServer() {
 const samples = {
   members:          { name: 'Tamu', role: 'Keyboard', photo: 'images/x.jpeg', sort_order: 5 },
   releases:         { title: 'Rilisan Uji', type: 'EP', release_year: 2025, cover: null, description: 'uji' },
-  tracks:           { release_id: 6, track_number: 6, title: 'Lagu Uji', duration: '2:59' },
-  tour_dates:       { event_date: '2025-01-31', city: 'Pontianak', venue: 'Gedung Uji', status: 'on_sale' },
+  tracks:           { release_id: 1, track_number: 6, title: 'Lagu Uji', duration: '2:59', audio_file: 'lagu-uji' },
+  tour_dates:       { date_label: '31 Januari 2027', event_date: '2027-01-31', city: 'Pontianak', venue: 'Gedung Uji', status: 'next' },
   gallery_photos:   { title: 'Foto Uji', image: 'images/uji.jpeg', caption: 'caption' },
-  videos:           { title: 'Video Uji', youtube_id: 'abcdefghijk', category: 'live' },
-  products:         { name: 'Produk Uji', price: 100000, stock: 3 },
+  products:         { slug: 'produk-uji', name: 'Produk Uji', price: 100000, category: 'lainnya' },
+  product_sizes:    { product_id: 3, size: 'XXL' },
+  product_images:   { product_id: 1, image: 'images/uji.jpeg', sort_order: 9 },
   contact_messages: { name: 'Penguji', email: 'uji@email.com', message: 'Halo' },
   faqs:             { question: 'Apa?', answer: 'Itu.', sort_order: 9 },
 };

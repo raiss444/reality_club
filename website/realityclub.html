@@ -1,893 +1,140 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reality Club — Official Website</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<meta name="description" content="Website resmi Reality Club, band indie pop dari Jakarta. Rayakan 10 tahun berkarya bersama jadwal tur 2026.">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1226'/%3E%3Ctext x='32' y='43' font-size='30' font-weight='800' text-anchor='middle' fill='%23ff7a59' font-family='sans-serif'%3ERC%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0f1226">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Reality Club — Official Website">
+
+<meta property="og:image" content="images/band_poster.jpeg">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header class="nav" id="nav">
+  <a href="#home" class="logo" aria-label="Reality Club"><img src="images/logo.png" alt="Reality Club"></a>
+  <nav id="menu" aria-label="Menu utama">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#music">Music</a><a href="#tour">Tour</a><a href="#gallery">Gallery</a><a href="#shop">Marketplace</a><a href="#contact">Contact</a>
+  </nav>
+  <button class="cart-btn" id="cartBtn" aria-label="Buka keranjang" aria-expanded="false">Keranjang <b id="cartCount">0</b></button>
+  <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false"><span></span><span></span></button>
+</header>
 
-<div class="city-bg"></div>
-
-<!-- NAV -->
-<nav>
-  <a class="logo" href="#p-home">Reality Club</a>
-  <ul class="nav-links">
-    <li><a href="#p-home" id="n-home" class="active">Home</a></li>
-    <li><a href="#p-about" id="n-about">About</a></li>
-    <li><a href="#p-music" id="n-music">Music</a></li>
-    <li><a href="#p-tour" id="n-tour">Tour</a></li>
-    <li><a href="#p-gallery" id="n-gallery">Gallery</a></li>
-    <li><a href="#p-marketplace" id="n-marketplace">MarketPlace</a></li>
-    <li><a href="#p-contact" id="n-contact">Contact</a></li>
-  </ul>
-</nav>
-<div class="toast" id="toast"></div>
-
-<!-- ══════════════ 1. HOMEPAGE ══════════════ -->
-<div class="page active" id="p-home">
-
-  <!-- HERO SLIDER -->
-  <div class="hero-slider" id="heroSlider">
-
-    <!-- TRACK -->
-    <div class="hero-track" id="heroTrack">
-
-      <!-- SLIDE 1: Latest Single -->
-      <div class="hero-slide hero-slide-1">
-        <div class="hero-bg-grid"></div>
-        <div class="hero-glow-left"></div>
-        <div class="hero-glow-right"></div>
-        <div class="hero-content" style="position:relative;z-index:2">
-          <div class="hero-tag">Latest Single</div>
-          <h1 class="hero-title">Is It the<br><span class="accent">Answer?</span></h1>
-          <p class="hero-subtitle">Indie urban romance dari Jakarta untuk kota-kota yang belum tidur.</p>
-          <div style="display:flex;gap:14px;flex-wrap:wrap">
-            <button class="btn-primary" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">▶&ensp;Listen Now</button>
-            <button class="btn-secondary" onclick="document.getElementById('p-tour').scrollIntoView({behavior:'smooth'});return false">Upcoming Shows</button>
-          </div>
-        </div>
-        <div class="hero-art-card">
-          <div class="art-inner">IS IT<br>THE<br>ANSWER?</div>
-          <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.06))"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top, rgba(11,17,32,0.6), transparent)"></div>
-          <div style="position:absolute;bottom:16px;left:16px;font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(139,92,246,0.5);letter-spacing:0.2em">REALITY CLUB · 2024</div>
-        </div>
-      </div>
-
-      <!-- SLIDE 2: Album -->
-      <div class="hero-slide hero-slide-2">
-        <div class="hero-bg-grid"></div>
-        <div class="hero-glow-left"></div>
-        <div class="hero-glow-right"></div>
-        <div class="hero-content" style="position:relative;z-index:2">
-          <div class="hero-tag">Featured Album</div>
-          <h1 class="hero-title">What Do You<br><span class="accent" style="background:linear-gradient(135deg,#3B82F6,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Really Know?</span></h1>
-          <p class="hero-subtitle">Album kedua Reality Club — 11 lagu tentang keraguan, harapan, dan kota.</p>
-          <div style="display:flex;gap:14px;flex-wrap:wrap">
-            <button class="btn-primary" style="background:linear-gradient(135deg,#3B82F6,#60a5fa);box-shadow:0 0 20px rgba(59,130,246,0.3)" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">▶&ensp;Play Album</button>
-            <button class="btn-secondary" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">View Tracklist</button>
-          </div>
-        </div>
-        <div class="hero-art-card" style="box-shadow:0 0 40px rgba(59,130,246,0.15), inset 0 0 40px rgba(139,92,246,0.05)">
-          <div class="art-inner" style="color:rgba(59,130,246,0.12)">WHAT DO<br>YOU REALLY<br>KNOW?</div>
-          <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.06))"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top, rgba(11,17,32,0.6), transparent)"></div>
-          <div style="position:absolute;bottom:16px;left:16px;font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(59,130,246,0.5);letter-spacing:0.2em">REALITY CLUB · 2022</div>
-        </div>
-      </div>
-
-      <!-- SLIDE 3: Tour -->
-      <div class="hero-slide hero-slide-3">
-        <div class="hero-bg-grid"></div>
-        <div class="hero-glow-left"></div>
-        <div class="hero-glow-right"></div>
-        <div class="hero-content" style="position:relative;z-index:2">
-          <div class="hero-tag" style="color:var(--pink)">On Tour 2024</div>
-          <h1 class="hero-title">Temui Kami<br><span class="accent" style="background:linear-gradient(135deg,#D6A5A4,#e8b8b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Di Kotamu</span></h1>
-          <p class="hero-subtitle">5 kota, satu musim — malam yang tak terlupakan menunggu kamu.</p>
-          <div style="display:flex;gap:14px;flex-wrap:wrap">
-            <button class="btn-primary" style="background:linear-gradient(135deg,#D6A5A4,#c49494);box-shadow:0 0 20px rgba(214,165,164,0.3);color:#0B1120" onclick="document.getElementById('p-tour').scrollIntoView({behavior:'smooth'});return false">Lihat Jadwal</button>
-            <button class="btn-secondary" onclick="document.getElementById('p-tour').scrollIntoView({behavior:'smooth'});return false">Buy Tickets</button>
-          </div>
-        </div>
-        <div class="hero-art-card" style="box-shadow:0 0 40px rgba(214,165,164,0.12)">
-          <div style="position:relative;z-index:1;text-align:center;padding:20px">
-            <div style="font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(214,165,164,0.4);letter-spacing:0.3em;margin-bottom:24px">TOUR 2024</div>
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:0.9rem;font-weight:600;color:rgba(248,245,242,0.15);line-height:2.4;letter-spacing:0.05em">
-              JAKARTA<br>BANDUNG<br>YOGYAKARTA<br>SURABAYA<br>BALI
-            </div>
-          </div>
-          <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(214,165,164,0.06), rgba(139,92,246,0.04))"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top, rgba(11,17,32,0.6), transparent)"></div>
-          <div style="position:absolute;bottom:16px;left:16px;font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(214,165,164,0.4);letter-spacing:0.2em">5 CITIES</div>
-        </div>
-      </div>
-
-    </div><!-- end track -->
-
-    <!-- ARROWS -->
-    <button class="slider-arrow slider-arrow-prev" id="slidePrev" onclick="slideMove(-1)">&#8592;</button>
-    <button class="slider-arrow slider-arrow-next" id="slideNext" onclick="slideMove(1)">&#8594;</button>
-
-    <!-- DOTS -->
-    <div class="slider-dots">
-      <div class="dot active" onclick="slideTo(0)"></div>
-      <div class="dot" onclick="slideTo(1)"></div>
-      <div class="dot" onclick="slideTo(2)"></div>
-    </div>
-
-  </div><!-- end hero-slider -->
-
-  <!-- NOW PLAYING + QUOTE -->
-  <div class="featured-quote">
-    <div class="now-playing" style="max-width:520px;margin:0 auto 24px">
-      <div class="np-dot"></div>
-      <span class="np-text">Now Trending</span>
-      <span class="np-title">Is It the Answer? — Reality Club</span>
-      <div class="np-bars">
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-      </div>
-    </div>
-    <p class="quote-text">"Musik kami adalah cerita tentang kota malam, <strong>perasaan yang tak tersampaikan</strong>, dan kenangan yang terlalu sayang untuk dilupakan."</p>
+<main>
+<section id="home" class="hero">
+  <div class="hero-in">
+  <h1>Reality Club</h1>
+  <div class="hero-left">
+    <p class="hero-quote">“Musik kami adalah cerita tentang kota malam, <b>perasaan yang tak tersampaikan</b>, dan kenangan yang terlalu sayang untuk dilupakan.”</p>
+    <div class="btns"><a class="btn" href="#music">Dengarkan sekarang</a><a class="btn ghost" href="#tour">Jadwal tur</a></div>
   </div>
-
-  <!-- STATS -->
-  <div class="stat-row">
-    <div class="stat-item">
-      <div class="stat-num">4+</div>
-      <div class="stat-label">Studio Albums</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">8yr</div>
-      <div class="stat-label">Making Music</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">50+</div>
-      <div class="stat-label">Cities Toured</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">1M+</div>
-      <div class="stat-label">Monthly Listeners</div>
-    </div>
-  </div>
-
-  <!-- LATEST RELEASE + UPCOMING CONCERT -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--border)">
-
-    <!-- Latest Release -->
-    <!-- Latest Release -->
-<div style="padding:44px 44px 44px 72px;border-right:1px solid var(--border)">
-  
-  <div class="sec-label">
-    <div class="sec-label-line">Latest Release</div>
-    <a href="#p-music">View All →</a>
-  </div>
-
-  <div class="row-4">
-
-    <div class="release-card" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">
-      <div class="rc-thumb art-a">
-        <img src="images/albumita.jpeg" alt="Is It the Answer? Single Cover">
-        <div class="rc-thumb-glow"></div>
-      </div>
-      <div class="rc-title">Is It the Answer?</div>
-      <div class="rc-meta">Single · 2024</div>
-    </div>
-
-    <div class="release-card" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">
-      <div class="rc-thumb">
-        <img src="images/album wdrk.jpeg" alt="What Do You Really Know? Album Cover">
-        <div class="rc-thumb-glow"></div>
-      </div>
-      <div class="rc-title">What Do You Really Know?</div>
-      <div class="rc-meta">Album · 2022</div>
-    </div>
-
-    <div class="release-card" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">
-      <div class="rc-thumb art-c">
-        <img src="images/albumrcp.jpeg" alt="Reality Club Presents Album Cover">
-        <div class="rc-thumb-glow"></div>
-      </div>
-      <div class="rc-title">Reality Club Presents</div>
-      <div class="rc-meta">Album · 2023</div>
-    </div>
-
-    <div class="release-card" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">
-      <div class="rc-thumb art-d">
-        <img src="images/albumngb.jpeg" alt="Never Get Better Album Cover">
-        <div class="rc-thumb-glow"></div>
-      </div>
-      <div class="rc-title">Never Get Better</div>
-      <div class="rc-meta">Album · 2020</div>
-    </div>
-
-  </div>
+  <a class="next-card" id="nextCard" href="#tour" hidden></a>
 </div>
-
-    <!-- Upcoming Concert -->
-    <div style="padding:44px 72px 44px 44px">
-      <div class="sec-label">
-        <div class="sec-label-line">Upcoming Shows</div>
-        <a href="#p-tour">View All →</a>
-      </div>
-      <div class="concert-row">
-        <div class="concert-date"><div class="c-day">25</div><div class="c-mon">May 2024</div></div>
-        <div class="concert-info"><div class="c-city">JAKARTA</div><div class="c-venue">JIExpo Kemayoran</div></div>
-        <button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button>
-      </div>
-      <div class="concert-row">
-        <div class="concert-date"><div class="c-day">08</div><div class="c-mon">Jun 2024</div></div>
-        <div class="concert-info"><div class="c-city">BANDUNG</div><div class="c-venue">The Hallway Space</div></div>
-        <button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button>
-      </div>
-      <div class="concert-row">
-        <div class="concert-date"><div class="c-day">21</div><div class="c-mon">Jun 2024</div></div>
-        <div class="concert-info"><div class="c-city">YOGYAKARTA</div><div class="c-venue">Jogja Expo Center</div></div>
-        <button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="page-divider"></div>
-<!-- ══════════════ 2. ABOUT PAGE ══════════════ -->
-<div class="page" id="p-about">
-
-  <div class="about-band-section">
-    <div>
-      <div class="page-heading">ABOUT <span class="accent">REALITY CLUB</span></div>
-      <p class="body-text" style="margin-bottom:16px">
-        Reality Club adalah band indie pop asal Jakarta, Indonesia yang dibentuk pada tahun 2016. Musik mereka terinspirasi dari kehidupan sehari-hari, dengan lirik jujur dan melodi yang hangat. Reality Club telah merilis beberapa album dan single yang mendapat sambutan positif dari pendengar.
-      </p>
-      <p class="body-text" style="margin-bottom:20px">
-        Dikenal dengan lirik yang puitis dan melodi yang catchy, mereka berhasil membangun fanbase yang loyal di Indonesia dan mancanegara. Mereka kerap tampil di berbagai festival musik besar seperti We The Fest, Synchronize Fest, dan Joyland.
-      </p>
-      <div style="margin-bottom:24px">
-        <span class="genre-tag">Indie Pop</span>
-        <span class="genre-tag">Dream Pop</span>
-        <span class="genre-tag">Indie Rock</span>
-        <span class="genre-tag">Jakarta</span>
-        <span class="genre-tag">2016</span>
-      </div>
-      <button class="btn-primary" onclick="document.getElementById('p-music').scrollIntoView({behavior:'smooth'});return false">▶&ensp;Dengarkan Musik</button>
-    </div>
-    <div class="about-photo" style="padding:0;overflow:hidden;background:none;">
-      <img src="images/band_poster.jpeg" alt="Reality Club Band" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;">
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="section">
-    <div class="sec-label"><div class="sec-label-line">Our Members</div></div>
-    <div class="row-4">
-      <div class="member-card">
-        <div class="member-avatar" style="width:90px;height:90px;border-radius:50%;overflow:hidden;padding:0;background:none;">
-          <img src="images/faiz.jpeg" alt="Faiz" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="member-name">Faiz</div>
-        <div class="member-role">Vocal</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar" style="width:90px;height:90px;border-radius:50%;overflow:hidden;padding:0;background:none;">
-          <img src="images/nugi.jpeg" alt="Nugi" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="member-name">Nugi</div>
-        <div class="member-role">Guitar</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar" style="width:90px;height:90px;border-radius:50%;overflow:hidden;padding:0;background:none;">
-          <img src="images/fathia.jpeg" alt="Fathia" style="width:100%;height:100%;object-fit:cover;object-position:top;">
-        </div>
-        <div class="member-name">Fathia</div>
-        <div class="member-role">Bass</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar" style="width:90px;height:90px;border-radius:50%;overflow:hidden;padding:0;background:none;">
-          <img src="images/era.jpeg" alt="Era" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <div class="member-name">Era</div>
-        <div class="member-role">Drums</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="page-divider"></div>
-<!-- ══════════════ 3. MUSIC PAGE ══════════════ -->
-<div class="page" id="p-music">
-
-  <div class="section">
-    <div class="sec-label"><div class="sec-label-line">Discography</div></div>
-    <div class="row-4">
-      <div class="release-card">
-        <div class="rc-thumb" style="position:relative;overflow:hidden">
-          <img src="images/album wdrk.jpeg" alt="What Do You Really Know? Album Cover" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-          <div class="rc-thumb-glow"></div>
-        </div>
-        <div class="rc-title">What Do You Really Know?</div>
-        <div class="rc-meta" style="font-size:0.72rem">Album · 2022</div>
-      </div>
-      <div class="release-card">
-        <div class="rc-thumb art-c" style="position:relative;overflow:hidden">
-          <img src="images/albumita.jpeg" alt="Yours Ever EP Cover" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-          <div class="rc-thumb-glow"></div>
-        </div>
-        <div class="rc-title">Yours Ever</div>
-        <div class="rc-meta" style="font-size:0.72rem">EP · 2021</div>
-      </div>
-      <div class="release-card">
-        <div class="rc-thumb art-d" style="position:relative;overflow:hidden">
-          <img src="images/albumngb.jpeg" alt="Never Get Better Album Cover" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-          <div class="rc-thumb-glow"></div>
-        </div>
-        <div class="rc-title">Never Get Better</div>
-        <div class="rc-meta" style="font-size:0.72rem">Album · 2020</div>
-      </div>
-      <div class="release-card">
-        <div class="rc-thumb art-a" style="position:relative;overflow:hidden">
-          <img src="images/albumrcp.jpeg" alt="Reality Club EP Cover" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-          <div class="rc-thumb-glow"></div>
-        </div>
-        <div class="rc-title">Reality Club</div>
-        <div class="rc-meta" style="font-size:0.72rem">EP · 2018</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="section">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
-      <!-- Latest Single -->
-      <div>
-        <div class="sec-label"><div class="sec-label-line">Latest Single</div></div>
-        <!-- Now playing indicator -->
-        <div class="now-playing" style="margin-bottom:16px">
-          <div class="np-dot"></div>
-          <span class="np-text">Playing</span>
-          <span class="np-title">Is It the Answer?</span>
-          <div class="np-bars">
-            <div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div>
-          </div>
-        </div>
-        <div class="track-list">
-          <div class="track-row" onclick="toast('Playing: Is It the Answer?')">
-            <div class="track-num">01</div>
-            <div class="track-play">
-              <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
-            </div>
-            <span class="track-name">Is It the Answer?</span>
-            <span class="track-dur">3:45</span>
-          </div>
-          <div class="track-row" onclick="toast('Playing: All I Want')">
-            <div class="track-num">02</div>
-            <div class="track-play">
-              <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
-            </div>
-            <span class="track-name">All I Want</span>
-            <span class="track-dur">3:20</span>
-          </div>
-          <div class="track-row" onclick="toast('Playing: Tell Me I\'m Wrong')">
-            <div class="track-num">03</div>
-            <div class="track-play">
-              <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
-            </div>
-            <span class="track-name">Tell Me I'm Wrong</span>
-            <span class="track-dur">3:52</span>
-          </div>
-          <div class="track-row" onclick="toast('Playing: Am I Bothering You?')">
-            <div class="track-num">04</div>
-            <div class="track-play">
-              <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
-            </div>
-            <span class="track-name">Am I Bothering You?</span>
-            <span class="track-dur">3:41</span>
-          </div>
-          <div class="track-row" onclick="toast('Playing: Someday')">
-            <div class="track-num">05</div>
-            <div class="track-play">
-              <svg width="8" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
-            </div>
-            <span class="track-name">Someday</span>
-            <span class="track-dur">4:02</span>
-          </div>
-        </div>
-      </div>
-      <!-- Music Video -->
-      <div>
-        <div class="sec-label"><div class="sec-label-line">Music Video</div></div>
-        <div class="video-embed" data-yt-id="-CuOwVTgpso" data-yt-title="Is It the Answer? (Official Music Video)" style="aspect-ratio:16/9;border:1px solid var(--border);border-radius:4px;overflow:hidden">
-          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/-CuOwVTgpso" title="Is It the Answer? (Official Music Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="display:block"></iframe>
-        </div>
-        <div style="margin-top:12px;font-size:0.84rem;font-family:'Space Grotesk',sans-serif;font-weight:500">Is It the Answer? (Official Video)</div>
-        <div style="font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted);margin-top:4px;letter-spacing:0.08em">Reality Club · 2024</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="page-divider"></div>
-<!-- ══════════════ 4. TOUR PAGE ══════════════ -->
-<div class="page" id="p-tour">
-  <div class="section">
-    <div class="page-heading">TOUR &amp; <span class="accent">CONCERT</span></div>
-    <p class="body-text" style="margin-bottom:36px;max-width:540px">Temui kami di kota kamu. Setiap konser adalah malam yang tak terlupakan — lampu kota, musik, dan semua perasaan yang tersimpan.</p>
-    <table class="tour-table">
-      <thead>
-        <tr>
-          <th>DATE</th>
-          <th>CITY</th>
-          <th>VENUE</th>
-          <th style="text-align:right">TICKET</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--lavender)">25 May 2024</td>
-          <td style="font-weight:600">Jakarta</td>
-          <td style="color:var(--muted)">JIExpo Kemayoran</td>
-          <td><button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button></td>
-        </tr>
-        <tr>
-          <td style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--lavender)">08 Jun 2024</td>
-          <td style="font-weight:600">Bandung</td>
-          <td style="color:var(--muted)">The Hallway Space</td>
-          <td><button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button></td>
-        </tr>
-        <tr>
-          <td style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--lavender)">21 Jun 2024</td>
-          <td style="font-weight:600">Yogyakarta</td>
-          <td style="color:var(--muted)">Jogja Expo Center</td>
-          <td><button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button></td>
-        </tr>
-        <tr>
-          <td style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--lavender)">13 Jul 2024</td>
-          <td style="font-weight:600">Surabaya</td>
-          <td style="color:var(--muted)">Jatim Expo</td>
-          <td><button class="btn-ticket" onclick="toast('Menuju halaman tiket…')">BUY TICKET</button></td>
-        </tr>
-        <tr>
-          <td style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--lavender)">27 Jul 2024</td>
-          <td style="font-weight:600">Bali</td>
-          <td style="color:var(--muted)">Atlas Beach Club</td>
-          <td><span class="tour-status-sold">SOLD OUT</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <footer style="margin-top:60px">
-    <div>
-      <div class="footer-follow">Follow Us</div>
-      <div class="footer-socials">
-        <a href="#" onclick="toast('Instagram…');return false">IG</a>
-        <a href="#" onclick="toast('YouTube…');return false">YT</a>
-        <a href="#" onclick="toast('Facebook…');return false">FB</a>
-        <a href="#" onclick="toast('Twitter…');return false">TW</a>
-      </div>
-    </div>
-    <div class="footer-copy">© 2024 Reality Club. All Rights Reserved.</div>
-  </footer>
-</div>
-
-<div class="page-divider"></div>
-
-<!-- ══════════════ 5. GALLERY PAGE ══════════════ -->
-<div class="page" id="p-gallery">
-  <div class="section">
-    <div class="page-heading">PHOTO <span class="accent">GALLERY</span></div>
-    <div class="photo-grid" style="margin-top:28px">
-      <div class="photo-item" style="background:linear-gradient(135deg,#0d0b1e,#0B1120);position:relative;overflow:hidden">
-        <img src="images/konser_fimela.jpeg" alt="Reality Club Live" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#090f20,#0B1120);position:relative;overflow:hidden">
-        <img src="images/faiz.jpeg" alt="Faiz - Reality Club" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#0b1220,#0B1120);position:relative;overflow:hidden">
-        <img src="images/nugi.jpeg" alt="Nugi - Reality Club" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#100920,#0B1120);position:relative;overflow:hidden">
-        <img src="images/era.jpeg" alt="Era - Reality Club" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#080c1e,#131A2A);position:relative;overflow:hidden">
-        <img src="images/album wdrk.jpeg" alt="What Do You Really Know? Album" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#0d0a1f,#131A2A);position:relative;overflow:hidden">
-        <img src="images/albumrcp.jpeg" alt="Reality Club Album" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#090e1f,#131A2A);position:relative;overflow:hidden">
-        <img src="images/albumngb.jpeg" alt="Reality Club Album" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-      <div class="photo-item" style="background:linear-gradient(135deg,#0c0b20,#131A2A);position:relative;overflow:hidden">
-        <img src="images/band_poster.jpeg" alt="Reality Club Band" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0.85;">
-        <div class="photo-overlay"></div>
-      </div>
-    </div>
-
-    <div class="sec-label" style="margin-top:44px"><div class="sec-label-line">Live Performance Video</div></div>
-    <div class="row-3">
-      <div>
-        <div class="video-embed" data-yt-id="6lyh0x2p3YY" data-yt-title="Live at We The Fest 2023" style="aspect-ratio:16/9;border:1px solid var(--border);border-radius:4px;overflow:hidden">
-          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/6lyh0x2p3YY" title="Live at We The Fest 2023" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="display:block"></iframe>
-        </div>
-        <div style="margin-top:10px;font-size:0.8rem;font-family:'Space Grotesk',sans-serif;font-weight:500">We The Fest 2023</div>
-        <div style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);margin-top:3px">Live Performance</div>
-      </div>
-      <div>
-        <div class="video-embed" data-yt-id="3PhYZZ-4_qk" data-yt-title="Synchronize Fest 2022" style="aspect-ratio:16/9;border:1px solid var(--border);border-radius:4px;overflow:hidden">
-          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/3PhYZZ-4_qk" title="Synchronize Fest 2022" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="display:block"></iframe>
-        </div>
-        <div style="margin-top:10px;font-size:0.8rem;font-family:'Space Grotesk',sans-serif;font-weight:500">Synchronize Fest 2022</div>
-        <div style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);margin-top:3px">Live Performance</div>
-      </div>
-      <div>
-        <div class="video-embed" data-yt-id="0BiEHHdA22w" data-yt-title="Joyland Festival 2023" style="aspect-ratio:16/9;border:1px solid var(--border);border-radius:4px;overflow:hidden">
-          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/0BiEHHdA22w" title="Joyland Festival 2023" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="display:block"></iframe>
-        </div>
-        <div style="margin-top:10px;font-size:0.8rem;font-family:'Space Grotesk',sans-serif;font-weight:500">Joyland Festival 2023</div>
-        <div style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);margin-top:3px">Live Performance</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="page-divider"></div>
-
-<!-- ══════════════ 6. MARKETPLACE PAGE ══════════════ -->
-<!-- MARKETPLACE PAGE -->
-<section id="p-marketplace" class="page">
-
-  <div class="section">
-
-    <div class="sec-label">
-      <div class="sec-label-line">
-        Marketplace
-      </div>
-    </div>
-
-    <h2 class="page-heading">
-      Official <span class="accent">Merchandise</span>
-    </h2>
-
-    <p class="body-text" style="max-width:700px;margin-bottom:40px;">
-      Koleksi Item Best Seller Merchandise Reality Club. 
-    </p>
-
-    <div class="row-4">
-
-      <!-- ITEM -->
-      <div class="glass-card" style="padding:18px;">
-        <div class="rc-thumb art-a" style="position:relative;overflow:hidden">
-          <img src="images/merch_hoodie.jpeg" alt="Reality Club Hoodie" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-        </div>
-
-        <div class="rc-title">
-          Reality Club Hoodie
-        </div>
-
-        <div class="rc-meta">
-          IDR 450K
-        </div>
-
-        <button class="btn-ticket" style="margin-top:14px;width:100%;" onclick="toast('Menambahkan Reality Club Hoodie ke keranjang…')">
-          Buy Now
-        </button>
-      </div>
-
-      <!-- ITEM -->
-      <div class="glass-card" style="padding:18px;">
-        <div class="rc-thumb art-b" style="position:relative;overflow:hidden">
-          <img src="images/merch_hat.jpeg" alt="Reality Club Hat" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-        </div>
-
-        <div class="rc-title">
-          Reality Club Hat
-        </div>
-
-        <div class="rc-meta">
-          IDR 189K
-        </div>
-
-        <button class="btn-ticket" style="margin-top:14px;width:100%;" onclick="toast('Menambahkan Reality Club Hat ke keranjang…')">
-          Buy Now
-        </button>
-      </div>
-
-      <!-- ITEM -->
-      <div class="glass-card" style="padding:18px;">
-        <div class="rc-thumb art-c" style="position:relative;overflow:hidden">
-          <img src="images/merch_tshirt.jpeg" alt="Official T-Shirt" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-        </div>
-
-        <div class="rc-title">
-          Official T-Shirt
-        </div>
-
-        <div class="rc-meta">
-          IDR 180K
-        </div>
-
-        <button class="btn-ticket" style="margin-top:14px;width:100%;" onclick="toast('Menambahkan Official T-Shirt ke keranjang…')">
-          Buy Now
-        </button>
-      </div>
-
-      <!-- ITEM -->
-      <div class="glass-card" style="padding:18px;">
-        <div class="rc-thumb art-d" style="position:relative;overflow:hidden">
-          <img src="images/merch_longsleeve.jpeg" alt="Longsleeve Tracklist" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-        </div>
-
-        <div class="rc-title">
-          Longsleeve Tracklist 
-        </div>
-
-        <div class="rc-meta">
-          IDR 299K
-        </div>
-
-        <button class="btn-ticket" style="margin-top:14px;width:100%;" onclick="toast('Menambahkan Longsleeve Tracklist ke keranjang…')">
-          Buy Now
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-
 </section>
 
-<!-- ══════════════ 7. CONTACT PAGE ══════════════ -->
-<div class="page" id="p-contact">
-  <div class="contact-grid">
+<div class="ticker" aria-hidden="true"><div><span></span><span>Kuala Lumpur, 13 November 2026</span><span>Indie pop dari Jakarta, sejak 2016</span><span>10 tahun Reality Club</span><span>Kuala Lumpur, 13 November 2026</span><span>Indie pop dari Jakarta, sejak 2016</span></div></div>
 
-    <!-- LEFT: CONTACT US form -->
-    <div>
-      <div class="page-heading">CONTACT <span class="accent">US</span></div>
-      <p class="body-text" style="margin-bottom:28px">Ada pertanyaan, booking, atau sekadar mau say hi? Kami selalu senang mendengar dari kalian.</p>
-      <label class="form-label">Your Name</label>
-      <input type="text" class="form-input" placeholder="Nama lengkap" id="cn">
-      <label class="form-label">Email Address</label>
-      <input type="email" class="form-input" placeholder="email@domain.com" id="ce">
-      <label class="form-label">Message</label>
-      <textarea class="form-textarea" placeholder="Tulis pesanmu di sini…" id="cm"></textarea>
-      <button class="form-submit" onclick="submitContact()">Send Message →</button>
+<section id="about" class="wrap about">
+  <img class="poster" src="images/band_poster.jpeg" alt="Poster Reality Club: Faiz, Fathia, Era, Nugi" loading="lazy">
+  <div>
+    <h2>Tentang artis</h2>
+    <p class="intro">Reality Club adalah grup musik indie rock asal Indonesia yang dikenal lewat perpaduan indie rock, pop, dan sentuhan alternatif. Band ini punya ciri musik yang unik, lirik yang emosional, dan penampilan panggung yang energik.</p>
+    <p>Karya mereka bercerita tentang berbagai pengalaman hidup, mulai dari cinta, hubungan, kehilangan, hingga perjalanan menemukan jati diri.</p>
+    <p>Dengan karakter musik yang kuat, Reality Club mendapat perhatian pendengar di Indonesia maupun luar negeri. Mereka sudah tampil di We The Fest, Synchronize Fest, dan Joyland, dan pada 2026 merayakan satu dekade berkarya lewat konser di Jakarta serta tur ke beberapa kota.</p>
+    <dl class="facts">
+      <div><dt>Nama band</dt><dd>Reality Club</dd></div>
+      <div><dt>Asal</dt><dd>Jakarta, Indonesia</dd></div>
+      <div><dt>Aktivitas</dt><dd>Musik, album, single, dan konser</dd></div>
+      <div><dt>Karakteristik</dt><dd>Melodi yang khas dan lirik yang penuh makna</dd></div>
+    </dl>
+    <blockquote class="motto"><b>Our Music, Our Story</b><p>Reality Club bukan hanya tentang musik, tetapi juga tentang cerita dan perasaan yang disampaikan lewat setiap lagu. Setiap karya menjadi cara untuk menghubungkan pengalaman band dengan para pendengarnya.</p></blockquote>
+    <p class="tags"><span>Indie rock</span><span>Alternative rock</span><span>Indie pop</span><span>Jakarta</span></p>
+    <ul class="members" id="members"></ul>
+  </div>
+</section>
+
+<section id="music" class="wrap">
+  <h2>Album</h2>
+  <div class="grid4" id="discs"></div>
+  <div class="player" id="player">
+    <audio id="audio" preload="none"></audio>
+    <div class="pl-left">
+      <div class="cover"><span class="ph" aria-hidden="true">♪</span><img id="coverImg" alt=""></div>
+      <div class="deck">
+        <div class="now" aria-live="polite"><small>Sedang dipilih</small><b id="nowT"></b><span id="nowA"></span></div>
+        <div class="bar"><input type="range" id="seek" min="0" max="100" value="0" step="1" aria-label="Posisi lagu"><span id="tm">0:00</span></div>
+        <div class="ctl">
+          <button id="prev" aria-label="Lagu sebelumnya"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6L18 18V6z"/></svg></button>
+          <button id="play" class="main" aria-label="Putar atau jeda"><svg class="i-play" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg></button>
+          <button id="next" aria-label="Lagu berikutnya"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+        </div>
+      </div>
     </div>
-
-    <!-- RIGHT: FAQ + FIND US -->
-    <div>
-      <div class="page-heading">FAQ</div>
-      <div style="margin-top:24px">
-        <div class="faq-item" id="faq0">
-          <div class="faq-q" onclick="toggleFaq(0)">
-            <span>How can I book Reality Club for an event?</span>
-            <div class="faq-icon">+</div>
-          </div>
-          <div class="faq-a">Kirim email ke booking@realityclub.id atau isi form Contact Us di sebelah kiri. Tim manajemen kami akan menghubungi Anda dalam 1–2 hari kerja.</div>
-        </div>
-        <div class="faq-item" id="faq1">
-          <div class="faq-q" onclick="toggleFaq(1)">
-            <span>Where can I buy the official merchandise?</span>
-            <div class="faq-icon">+</div>
-          </div>
-          <div class="faq-a">Merchandise yang berada di Website ini hanya untuk Item Best Seller. Untuk mendapatkan lebih banyak Item ikuti Instagram Reality Club untuk update stok terbaru.</div>
-        </div>
-        <div class="faq-item" id="faq2">
-          <div class="faq-q" onclick="toggleFaq(2)">
-            <span>How to contact the management?</span>
-            <div class="faq-icon">+</div>
-          </div>
-          <div class="faq-a">Hubungi manajemen melalui email management@realityclub.id. Untuk keperluan media dan press, gunakan press@realityclub.id.</div>
-        </div>
-        <div class="faq-item" id="faq3">
-          <div class="faq-q" onclick="toggleFaq(3)">
-            <span>Do you have a fan community?</span>
-            <div class="faq-icon">+</div>
-          </div>
-          <div class="faq-a">Ya! Bergabunglah dengan komunitas Reality Club Fans di Discord dan Telegram. Link tersedia di bio Instagram official.</div>
-        </div>
-      </div>
-
-      <div class="find-us-label">FIND US</div>
-      <div class="social-icons-row">
-        <div class="soc-icon" onclick="toast('Instagram…')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <div class="soc-icon" onclick="toast('YouTube…')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-        </div>
-        <div class="soc-icon" onclick="toast('Spotify…')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-        </div>
-        <div class="soc-icon" onclick="toast('Twitter…')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-        </div>
-      </div>
+    <div class="plists">
+      <h3>Daftar lagu</h3>
+      <ol class="plist" id="songList"></ol>
     </div>
   </div>
+</section>
 
-  <footer>
-    <div>
-      <div class="footer-follow">Follow Us</div>
-      <div class="footer-socials">
-        <a href="#" onclick="toast('Instagram…');return false">IG</a>
-        <a href="#" onclick="toast('YouTube…');return false">YT</a>
-        <a href="#" onclick="toast('Facebook…');return false">FB</a>
-        <a href="#" onclick="toast('Twitter…');return false">TW</a>
-      </div>
-    </div>
-    <div class="footer-copy">© 2024 Reality Club. All Rights Reserved.</div>
-  </footer>
-</div>
+<section id="tour" class="wrap alt">
+  <h2>Tour 2026</h2>
+  <p class="sub">Konser terbaru dan yang akan datang. Jadwal lain diumumkan lewat Instagram Reality Club.</p>
+  <ul class="shows" id="shows"></ul>
+</section>
 
-<script>
-/* ─── SLIDER ─── */
-let slideIndex = 0;
-const totalSlides = 3;
-let autoTimer;
-let touchStartX = 0;
-let touchStartY = 0;
-let isDragging = false;
-let dragStartX = 0;
-let dragOffset = 0;
+<section id="gallery" class="wrap alt">
+  <h2>Galeri</h2>
+  <div class="masonry" id="photos"></div>
+</section>
 
-const track = document.getElementById('heroTrack');
-const dots = document.querySelectorAll('.slider-dots .dot');
+<section id="shop" class="wrap">
+  <h2>Merchandise</h2>
+  <p class="sub">Koleksi best seller. Stok lain diumumkan lewat Instagram Reality Club.</p>
 
-function slideTo(n){
-  slideIndex = (n + totalSlides) % totalSlides;
-  track.style.transform = `translateX(-${slideIndex * 100}%)`;
-  dots.forEach((d,i) => d.classList.toggle('active', i === slideIndex));
-  resetAuto();
-}
+  <h3 class="merch-row-title">Best Seller</h3>
+  <div class="grid4" id="merch"></div>
 
-function slideMove(dir){ slideTo(slideIndex + dir); }
+  <h3 class="merch-row-title">Merch Lainnya</h3>
+  <div class="grid4" id="merch2"></div>
+</section>
 
-function resetAuto(){
-  clearInterval(autoTimer);
-  autoTimer = setInterval(() => slideMove(1), 5000);
-}
+<section id="contact" class="wrap contact">
+  <form id="form" novalidate>
+    <h2>Hubungi kami</h2>
+    <p class="sub">Pertanyaan, booking, atau sekadar menyapa. Kami senang mendengarnya.</p>
+    <label for="cn">Nama</label><input id="cn" autocomplete="name">
+    <label for="ce">Email</label><input id="ce" type="email" autocomplete="email">
+    <label for="cm">Pesan</label><textarea id="cm" rows="5"></textarea>
+    <p class="err" id="err" role="alert"></p>
+    <button class="btn" type="submit">Kirim pesan</button>
+  </form>
+  <div>
+    <h2>FAQ</h2>
+    <details><summary>Bagaimana cara booking Reality Club?</summary><p>Kirim email ke booking@realityclub.id atau isi formulir ini. Tim manajemen membalas dalam 1–2 hari kerja.</p></details>
+    <details><summary>Di mana beli merchandise resmi?</summary><p>Website ini hanya menjual item best seller. Untuk stok lainnya, ikuti Instagram Reality Club.</p></details>
+    <details><summary>Bagaimana menghubungi manajemen?</summary><p>Email management@realityclub.id. Untuk media dan press: press@realityclub.id.</p></details>
+    <details><summary>Apakah ada komunitas penggemar?</summary><p>Ada. Gabung Reality Club Fans di Discord dan Telegram. Linknya ada di bio Instagram resmi.</p></details>
+  </div>
+</section>
+</main>
 
-/* touch / pointer swipe */
-track.addEventListener('pointerdown', e => {
-  if(e.pointerType === 'mouse' && e.button !== 0) return;
-  isDragging = true;
-  dragStartX = e.clientX;
-  dragOffset = 0;
-  track.style.transition = 'none';
-  track.setPointerCapture(e.pointerId);
-});
+<footer><span>© 2026 Reality Club. All rights reserved.</span><span class="soc"><a href="https://www.instagram.com/realityclub" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/channel/UCdU5OncGSaRQNKHVCsyXppg" target="_blank" rel="noopener">YouTube</a><a href="https://open.spotify.com/artist/1DjZI46mVZZZYmmmygRnTw" target="_blank" rel="noopener">Spotify</a><a href="https://music.apple.com/id/artist/reality-club/1468177977" target="_blank" rel="noopener">Apple Music</a></span></footer>
 
-track.addEventListener('pointermove', e => {
-  if(!isDragging) return;
-  dragOffset = e.clientX - dragStartX;
-  const base = -slideIndex * 100;
-  const pct = (dragOffset / track.parentElement.offsetWidth) * 100;
-  track.style.transform = `translateX(calc(${base}% + ${dragOffset}px))`;
-});
-
-track.addEventListener('pointerup', e => {
-  if(!isDragging) return;
-  isDragging = false;
-  track.style.transition = 'transform .6s cubic-bezier(0.77,0,0.18,1)';
-  const threshold = track.parentElement.offsetWidth * 0.2;
-  if(dragOffset < -threshold) slideMove(1);
-  else if(dragOffset > threshold) slideMove(-1);
-  else slideTo(slideIndex);
-});
-
-track.addEventListener('pointercancel', () => {
-  isDragging = false;
-  track.style.transition = 'transform .6s cubic-bezier(0.77,0,0.18,1)';
-  slideTo(slideIndex);
-});
-
-/* keyboard nav */
-document.addEventListener('keydown', e => {
-  const home = document.getElementById('p-home');
-  if(!home.classList.contains('active')) return;
-  if(e.key === 'ArrowLeft') slideMove(-1);
-  if(e.key === 'ArrowRight') slideMove(1);
-});
-
-/* start auto */
-resetAuto();
-
-/* ─── SCROLL NAV ACTIVE STATE ─── */
-const sections = ['home','about','music','tour','gallery','contact'];
-const observerOptions = {
-  root: null,
-  rootMargin: '-64px 0px -40% 0px',
-  threshold: 0
-};
-const navObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      const id = entry.target.id.replace('p-','');
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      const navLink = document.getElementById('n-'+id);
-      if(navLink) navLink.classList.add('active');
-    }
-  });
-}, observerOptions);
-
-sections.forEach(id => {
-  const el = document.getElementById('p-'+id);
-  if(el) navObserver.observe(el);
-});
-
-/* Smooth scroll for nav links */
-document.querySelectorAll('.nav-links a, .logo').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if(href && href.startsWith('#')){
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if(target) target.scrollIntoView({behavior:'smooth'});
-    }
-  });
-});
-
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2400);
-}
-function toggleFaq(i){
-  const el=document.getElementById('faq'+i);
-  el.classList.toggle('open');
-}
-function submitContact(){
-  const n=document.getElementById('cn').value.trim();
-  const e=document.getElementById('ce').value.trim();
-  const m=document.getElementById('cm').value.trim();
-  if(!n||!e||!m){toast('Mohon isi semua field!');return;}
-  toast('Pesan terkirim! Terima kasih, '+n+'. 🌙');
-  document.getElementById('cn').value='';
-  document.getElementById('ce').value='';
-  document.getElementById('cm').value='';
-}
-
-// Fallback video: kalau dibuka dari file lokal (file://), YouTube embed
-// tidak bisa jalan (butuh referrer dari server web asli).
-// Jadi tampilkan thumbnail + tombol buka YouTube sebagai gantinya.
-// Begitu website ini di-host online, iframe di atas akan otomatis jalan normal.
-if(location.protocol === 'file:'){
-  document.querySelectorAll('.video-embed').forEach(function(el){
-    var id = el.getAttribute('data-yt-id');
-    var title = el.getAttribute('data-yt-title') || 'Video';
-    if(!id) return;
-    el.innerHTML =
-      '<a href="https://www.youtube.com/watch?v='+id+'" target="_blank" rel="noopener" ' +
-      'style="position:relative;display:block;width:100%;height:100%;text-decoration:none">' +
-        '<img src="https://img.youtube.com/vi/'+id+'/hqdefault.jpg" alt="'+title+'" ' +
-        'style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.7">' +
-        '<span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(11,17,32,0.25)">' +
-          '<span style="width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(220,38,38,0.7);display:flex;align-items:center;justify-content:center;background:rgba(220,38,38,0.15);backdrop-filter:blur(6px)">' +
-            '<svg width="18" height="20" viewBox="0 0 20 22" fill="#fff"><path d="M0 0l20 11L0 22z"/></svg>' +
-          '</span>' +
-          '<span style="font-family:\'Space Grotesk\',sans-serif;font-size:0.78rem;color:#fff;background:rgba(11,17,32,0.7);padding:4px 12px;border-radius:3px">Tonton di YouTube</span>' +
-        '</span>' +
-      '</a>';
-  });
-}
-</script>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Keranjang" hidden>
+  <div class="d-head"><h3>Keranjang</h3><button id="closeCart" aria-label="Tutup keranjang">×</button></div>
+  <ul id="cartList"></ul>
+  <div class="d-foot"><p>Total <b id="cartTotal">Rp0</b></p><button class="btn" id="checkout">Checkout</button></div>
+</aside>
+<div class="lightbox" id="lb" hidden><img alt=""><button aria-label="Tutup">×</button></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="script.js"></script>
 </body>
 </html>

@@ -39,9 +39,9 @@ for (const t of tables) {
 }
 
 test('READ: pencarian ?q= dan pagination', async () => {
-  const q = await s.call('GET', '/api/tour_dates?q=bali');
+  const q = await s.call('GET', '/api/tour_dates?q=malaysia');
   assert.equal(q.body.total, 1);
-  assert.equal(q.body.data[0].city, 'Bali');
+  assert.equal(q.body.data[0].city, 'Kuala Lumpur, Malaysia');
   const p = await s.call('GET', '/api/gallery_photos?limit=3&offset=3');
   assert.equal(p.body.data.length, 3);
   assert.ok(p.body.total >= 8);
@@ -49,7 +49,7 @@ test('READ: pencarian ?q= dan pagination', async () => {
 
 test('READ tracks: menyertakan label relasi rilisan', async () => {
   const r = await s.call('GET', '/api/tracks/1');
-  assert.equal(r.body.release_id__label, 'Is It the Answer?');
+  assert.equal(r.body.release_id__label, 'Reality Club Presents…');
 });
 
 test('CREATE: aturan validasi spesifik', async () => {
@@ -57,23 +57,24 @@ test('CREATE: aturan validasi spesifik', async () => {
   assert.equal((await bad('products', { price: -1 })).status, 422);
   assert.equal((await bad('products', { price: 'abc' })).status, 422);
   assert.equal((await bad('releases', { type: 'Mixtape' })).status, 422);
-  assert.equal((await bad('tour_dates', { event_date: '31-01-2025' })).status, 422);
-  assert.equal((await bad('videos', { youtube_id: 'pendek' })).status, 422);
+  assert.equal((await bad('tour_dates', { event_date: '31-01-2027' })).status, 422);
+  assert.equal((await bad('products', { slug: 'Slug Salah!' })).status, 422);
+  assert.equal((await bad('tour_dates', { status: 'on_sale' })).status, 422);
   assert.equal((await bad('contact_messages', { email: 'bukan-email' })).status, 422);
   assert.equal((await bad('tracks', { duration: '3:75' })).status, 422);
   assert.equal((await bad('tracks', { release_id: 12345 })).status, 422);
 });
 
 test('CREATE tracks: nomor track ganda pada rilisan sama -> 409', async () => {
-  const r = await s.call('POST', '/api/tracks', { release_id: 6, track_number: 1, title: 'Dobel', duration: '1:00' });
+  const r = await s.call('POST', '/api/tracks', { release_id: 2, track_number: 1, title: 'Dobel', duration: '1:00' });
   assert.equal(r.status, 409);
 });
 
-test('CREATE: kolom asing diabaikan (mass-assignment) & default dipakai', async () => {
-  const r = await s.call('POST', '/api/products', { name: 'Tanpa Stok', price: 1, id: 9999, hack: 'x' });
+test('CREATE: kolom asing diabaikan (mass-assignment) & nilai default dipakai', async () => {
+  const r = await s.call('POST', '/api/products', { slug: 'tanpa-kategori', name: 'Tanpa Kategori', price: 1, id: 9999, hack: 'x' });
   assert.equal(r.status, 201);
   assert.notEqual(r.body.id, 9999);
-  assert.equal(r.body.stock, 0);
+  assert.equal(r.body.category, 'best_seller');
   assert.equal('hack' in r.body, false);
 });
 
@@ -88,4 +89,16 @@ test('CREATE: SQL injection pada nilai diperlakukan sebagai teks biasa', async (
 test('API: nama tabel di luar whitelist -> 404; JSON rusak -> 400', async () => {
   assert.equal((await s.call('GET', '/api/sqlite_master')).status, 404);
   assert.equal((await s.call('GET', '/api/members/abc')).status, 400);
+});
+
+test('CREATE tour_dates: tanggal boleh kosong (belum diumumkan)', async () => {
+  const r = await s.call('POST', '/api/tour_dates', { date_label: 'Segera', city: 'Medan', venue: 'TBA' });
+  assert.equal(r.status, 201, JSON.stringify(r.body));
+  assert.equal(r.body.event_date, null);
+  assert.equal(r.body.status, 'next');
+});
+
+test('CREATE products: slug ganda -> 409', async () => {
+  const r = await s.call('POST', '/api/products', { slug: 'wkwlty', name: 'Dobel', price: 1 });
+  assert.equal(r.status, 409);
 });

@@ -3,3 +3,7 @@ database/*.db
 database/*.db-journal
 .env
 .DS_Store
+
+# file audio besar: salin manual ke website/audio/
+website/audio/
+*.db

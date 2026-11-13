@@ -1,5 +1,5 @@
 /**
- * Definisi 9 tabel. Satu definisi dipakai bersama oleh:
+ * Definisi 10 tabel. Satu definisi dipakai bersama oleh:
  *  - API (daftar kolom yang boleh diakses, validasi, pencarian)
  *  - Panel admin (membangun tabel & formulir secara otomatis lewat /api/_meta)
  *
@@ -37,15 +37,17 @@ module.exports = {
       int('track_number', 'No. Track', { required: true, min: 1, list: true }),
       text('title', 'Judul Lagu', { required: true, max: 150, list: true }),
       text('duration', 'Durasi (m:ss)', { required: true, pattern: '^\\d{1,2}:[0-5]\\d$', patternHint: 'format m:ss, mis. 3:45', list: true }),
+      text('audio_file', 'File audio (tanpa .mp3)', { max: 120 }),
     ],
   },
   tour_dates: {
-    label: 'Tour Dates', orderBy: 'event_date', searchable: ['city', 'venue'],
+    label: 'Tour Dates', orderBy: 'event_date IS NULL, event_date', searchable: ['city', 'venue', 'date_label'],
     fields: [
-      { name: 'event_date', label: 'Tanggal', type: 'date', required: true, list: true },
+      text('date_label', 'Tanggal (teks tampilan)', { required: true, max: 60, list: true }),
+      { name: 'event_date', label: 'Tanggal (YYYY-MM-DD)', type: 'date' },
       text('city', 'Kota', { required: true, max: 80, list: true }),
-      text('venue', 'Venue', { required: true, max: 120, list: true }),
-      { name: 'status', label: 'Status Tiket', type: 'select', options: ['on_sale', 'sold_out'], default: 'on_sale', required: true, list: true },
+      text('venue', 'Venue', { required: true, max: 160, list: true }),
+      { name: 'status', label: 'Status', type: 'select', options: ['next', 'done'], default: 'next', required: true, list: true },
       text('ticket_url', 'URL Tiket', { max: 255 }),
     ],
   },
@@ -57,23 +59,30 @@ module.exports = {
       area('caption', 'Caption', { max: 500 }),
     ],
   },
-  videos: {
-    label: 'Videos', orderBy: 'category, id', searchable: ['title', 'youtube_id'],
-    fields: [
-      text('title', 'Judul', { required: true, max: 150, list: true }),
-      text('youtube_id', 'YouTube ID', { required: true, pattern: '^[A-Za-z0-9_-]{11}$', patternHint: '11 karakter ID YouTube', list: true }),
-      { name: 'category', label: 'Kategori', type: 'select', options: ['music_video', 'live'], required: true, list: true },
-      area('description', 'Keterangan', { max: 500 }),
-    ],
-  },
   products: {
-    label: 'Products (Merchandise)', orderBy: 'id', searchable: ['name'],
+    label: 'Products (Merchandise)', cascades: ['product_sizes', 'product_images'], orderBy: 'id', searchable: ['name', 'slug'],
     fields: [
+      text('slug', 'Kode produk', { required: true, max: 40, pattern: '^[a-z0-9-]+$', patternHint: 'huruf kecil, angka, tanda minus', list: true }),
       text('name', 'Nama Produk', { required: true, max: 120, list: true }),
       int('price', 'Harga (IDR)', { required: true, min: 0, list: true }),
-      text('image', 'Gambar (path)', { max: 255, image: true, list: true }),
-      int('stock', 'Stok', { default: 0, min: 0, list: true }),
+      { name: 'category', label: 'Kategori', type: 'select', options: ['best_seller', 'lainnya'], default: 'best_seller', required: true, list: true },
+      text('image', 'Gambar utama (path)', { max: 255, image: true, list: true }),
       area('description', 'Deskripsi', { max: 1000 }),
+    ],
+  },
+  product_sizes: {
+    label: 'Product Sizes (Ukuran)', orderBy: 'product_id, id', searchable: ['size'],
+    fields: [
+      { name: 'product_id', label: 'Produk', type: 'ref', ref: 'products', refLabel: 'name', required: true, list: true },
+      text('size', 'Ukuran', { required: true, max: 10, list: true }),
+    ],
+  },
+  product_images: {
+    label: 'Product Images (Foto Produk)', orderBy: 'product_id, sort_order, id', searchable: ['image'],
+    fields: [
+      { name: 'product_id', label: 'Produk', type: 'ref', ref: 'products', refLabel: 'name', required: true, list: true },
+      text('image', 'Gambar (path)', { required: true, max: 255, image: true, list: true }),
+      int('sort_order', 'Urutan', { default: 0, min: 0, list: true }),
     ],
   },
   contact_messages: {

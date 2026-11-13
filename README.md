@@ -3,9 +3,10 @@
 Website resmi band **Reality Club** (HTML/CSS/JS) yang ditambah lapisan **basis data
 SQLite** dan **operasi CRUD** untuk seluruh tabelnya, lengkap dengan REST API dan panel admin.
 
-> Catatan: berkas awal proyek (`website/`) adalah situs statis tanpa basis data. Skema tabel di
-> repositori ini diturunkan dari konten yang sudah ada pada situs (personel, diskografi, tracklist,
-> jadwal tur, galeri, video, merchandise, pesan kontak, FAQ).
+> Catatan: `website/` adalah situs statis Reality Club versi terbaru (data tertanam di `script.js`). Skema
+> tabel diturunkan dari konten situs itu (personel, diskografi, lagu, jadwal tur, galeri, merchandise
+> beserta ukuran dan foto, pesan kontak, FAQ). File audio (`audio/*.mp3`) tidak ikut repositori karena
+> besar; salin ke `website/audio/` agar pemutar musik berfungsi.
 
 ## Tahapan pengerjaan
 
@@ -27,17 +28,18 @@ npm test             # pengujian otomatis
 Basis data `database/realityclub.db` dibuat otomatis beserta data awal (`seed.sql`) saat pertama dijalankan.
 Hapus berkas itu untuk mengulang dari data awal.
 
-## Tabel (9)
+## Tabel (10)
 
 | Tabel | Keterangan | Relasi |
 |---|---|---|
 | `members` | Personel band | — |
 | `releases` | Diskografi (Single/EP/Album) | — |
-| `tracks` | Tracklist | `release_id` → `releases` |
-| `tour_dates` | Jadwal konser & status tiket | — |
+| `tracks` | Lagu (judul, durasi, file audio) | `release_id` → `releases` |
+| `tour_dates` | Jadwal tur (status `done` / `next`) | — |
 | `gallery_photos` | Foto galeri | — |
-| `videos` | Video musik & live | — |
-| `products` | Merchandise | — |
+| `products` | Merchandise (Best Seller / Lainnya) | — |
+| `product_sizes` | Ukuran tiap produk | `product_id` → `products` |
+| `product_images` | Foto tiap produk | `product_id` → `products` |
 | `contact_messages` | Pesan dari form kontak | — |
 | `faqs` | Pertanyaan umum | — |
 
@@ -54,7 +56,7 @@ Contoh:
 curl http://localhost:3000/api/products
 curl -X POST http://localhost:3000/api/products \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Tote Bag","price":99000,"stock":20}'
+  -d '{"slug":"tote","name":"Tote Bag","price":99000,"category":"lainnya"}'
 ```
 
 ## API — Tahap 2 (Update & Delete)
@@ -65,28 +67,28 @@ curl -X POST http://localhost:3000/api/products \
 | Update (sebagian) | `PATCH /api/:tabel/:id` — hanya kolom yang dikirim yang berubah | `200` / `404` / `422` / `409` |
 | Delete | `DELETE /api/:tabel/:id` | `204` / `404` |
 
-Catatan: menghapus sebuah **rilisan** otomatis menghapus **tracklist**-nya (`ON DELETE CASCADE`);
+Catatan: menghapus sebuah **rilisan** otomatis menghapus lagunya, dan menghapus sebuah **produk** otomatis menghapus ukuran dan fotonya (`ON DELETE CASCADE`);
 panel admin menampilkan peringatan sebelum penghapusan.
 
 ```bash
-curl -X PATCH http://localhost:3000/api/products/1 -H 'Content-Type: application/json' -d '{"stock":15}'
+curl -X PATCH http://localhost:3000/api/products/1 -H 'Content-Type: application/json' -d '{"price":195000}'
 curl -X DELETE http://localhost:3000/api/faqs/4
 ```
 
 ## Panel admin
 
-Buka `http://localhost:3000/admin/` — sidebar berisi 9 tabel; tiap tabel mendukung pencarian, paging,
+Buka `http://localhost:3000/admin/` — sidebar berisi 10 tabel; tiap tabel mendukung pencarian, paging,
 **Detail** (Read), **+ Tambah** (Create), **Edit** (Update), dan **Hapus** (Delete, dengan konfirmasi).
 
 ## Pengujian
 
-`npm test` menjalankan 78 kasus (`node:test`) yang mencakup keempat operasi pada semua 9 tabel:
+`npm test` menjalankan pengujian otomatis (`node:test`) yang mencakup keempat operasi pada semua 10 tabel:
 `tests/create-read.test.js` (tahap 1) dan `tests/update-delete.test.js` (tahap 2).
 
 ## Struktur
 
 ```
-website/    situs statis asli (realityclub.html, style.css, images/)
+website/    situs statis (realityclub.html, script.js, style.css, images/; audio/ disalin manual)
 admin/      panel admin CRUD (HTML/CSS/JS)
 database/   schema.sql, seed.sql
 src/        db.js, resources.js (definisi tabel), crud.js, validate.js, app.js, server.js

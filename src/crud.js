@@ -36,4 +36,13 @@ function get(db, table, id) {
   return db.prepare(`${baseSelect(table)} WHERE t.id = ?`).get(id) || null;
 }
 
-module.exports = { columnsOf, list, get };
+/** CREATE: sisipkan satu baris, kembalikan baris yang baru dibuat. */
+function create(db, table, values) {
+  const cols = Object.keys(values);
+  const info = db
+    .prepare(`INSERT INTO ${table} (${cols.join(', ')}) VALUES (${cols.map(() => '?').join(', ')})`)
+    .run(...cols.map((c) => values[c]));
+  return get(db, table, Number(info.lastInsertRowid));
+}
+
+module.exports = { columnsOf, list, get, create };

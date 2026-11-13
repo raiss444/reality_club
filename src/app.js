@@ -2,6 +2,16 @@ const path = require('node:path');
 const express = require('express');
 const resources = require('./resources');
 const crud = require('./crud');
+const { validate } = require('./validate');
+
+/** Ubah galat constraint SQLite menjadi respons 4xx yang mudah dibaca. */
+function dbError(err, res) {
+  const msg = String(err.message || '');
+  if (msg.includes('UNIQUE')) return res.status(409).json({ error: 'Data duplikat: kombinasi nilai tersebut sudah ada' });
+  if (msg.includes('FOREIGN KEY')) return res.status(409).json({ error: 'Relasi data tidak valid atau masih dipakai data lain' });
+  if (msg.includes('CHECK') || msg.includes('NOT NULL')) return res.status(400).json({ error: 'Data melanggar aturan basis data' });
+  throw err;
+}
 
 function createApp(db) {
   const app = express();
@@ -31,6 +41,16 @@ function createApp(db) {
     const row = crud.get(db, req.params.resource, Number(req.params.id));
     if (!row) return res.status(404).json({ error: 'Data tidak ditemukan' });
     res.json(row);
+  });
+
+  // ── CREATE ──
+  api.post('/:resource', (req, res) => {
+    const table = req.params.resource;
+    const { values, errors } = validate(db, table, req.body);
+    if (Object.keys(errors).length) return res.status(422).json({ error: 'Validasi gagal', details: errors });
+    try {
+      res.status(201).json(crud.create(db, table, values));
+    } catch (err) { dbError(err, res); }
   });
 
   app.use('/api', api);

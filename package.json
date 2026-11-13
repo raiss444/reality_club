@@ -1,0 +1,13 @@
+{
+  "name": "realityclub-crud",
+  "version": "1.0.0",
+  "description": "Website Reality Club + operasi CRUD (Node.js, Express, SQLite) untuk seluruh tabel basis data",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test tests/"
+  },
+  "engines": { "node": ">=22.5" },
+  "license": "MIT",
+  "dependencies": { "express": "^5.1.0" }
+}

@@ -53,6 +53,24 @@ function createApp(db) {
     } catch (err) { dbError(err, res); }
   });
 
+  // ── UPDATE ──
+  // PUT   = ganti seluruh kolom (semua kolom wajib terpenuhi seperti saat Create)
+  // PATCH = ubah sebagian kolom; kolom yang tidak dikirim tetap bernilai lama
+  const updateHandler = (partial) => (req, res) => {
+    const table = req.params.resource;
+    const id = Number(req.params.id);
+    const existing = crud.get(db, table, id);
+    if (!existing) return res.status(404).json({ error: 'Data tidak ditemukan' });
+    const input = partial && req.body && typeof req.body === 'object' ? { ...existing, ...req.body } : req.body;
+    const { values, errors } = validate(db, table, input);
+    if (Object.keys(errors).length) return res.status(422).json({ error: 'Validasi gagal', details: errors });
+    try {
+      res.json(crud.update(db, table, id, values));
+    } catch (err) { dbError(err, res); }
+  };
+  api.put('/:resource/:id', updateHandler(false));
+  api.patch('/:resource/:id', updateHandler(true));
+
   app.use('/api', api);
 
   // Website statis + panel admin

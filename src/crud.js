@@ -45,4 +45,13 @@ function create(db, table, values) {
   return get(db, table, Number(info.lastInsertRowid));
 }
 
-module.exports = { columnsOf, list, get, create };
+/** UPDATE: ubah satu baris; null bila id tidak ada. */
+function update(db, table, id, values) {
+  const cols = Object.keys(values);
+  const info = db
+    .prepare(`UPDATE ${table} SET ${cols.map((c) => `${c} = ?`).join(', ')} WHERE id = ?`)
+    .run(...cols.map((c) => values[c]), id);
+  return info.changes ? get(db, table, id) : null;
+}
+
+module.exports = { columnsOf, list, get, create, update };

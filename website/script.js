@@ -2,64 +2,72 @@ const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [..
 const rp = n => 'Rp' + n.toLocaleString('id-ID');
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2400) };
 
-const members = [['Faiz', 'Vokal & Gitar', 'faiz'], ['Nugi', 'Bass', 'nugi'], ['Fathia', 'Vokal, Gitar & Keyboard', 'fathia'], ['Era', 'Drum', 'era']];
-const discs = [['Who Knows Where Life Will Take You?', 'Album · 2025', 'albumwk'], ['Reality Club Presents…', 'Album · 2023', 'albumrcp'], ['What Do You Really Know?', 'Album · 2019', 'albumwdrk'], ['Never Get Better', 'Album · 2017', 'albumngb']];
-/* Jadwal tur: [tanggal, kota, venue, status] status: 'done' = sudah lewat, 'next' = akan datang */
-const shows = [
-  ['6 Juni 2026', 'Jakarta, Indonesia', '(10) Years of Reality Club · Basketball Hall Senayan', 'done'],
-  ['16–18 Oktober 2026', 'Jakarta, Indonesia', 'Synchronize Fest · Gambir Expo Kemayoran', 'done'],
-  ['13 November 2026', 'Kuala Lumpur, Malaysia', 'Zepp Kuala Lumpur', 'next'],
-  ['Desember 2026', 'Pontianak, Indonesia', 'Tanggal dan venue segera diumumkan', 'next']
-];
+/* ============================================================
+   DATA DARI DATABASE (lewat REST API backend CRUD)
+   Pemetaan:  members -> #members      releases -> #discs
+              tracks (+releases) -> #songList   tour_dates -> #shows
+              gallery_photos -> #photos         products (+product_sizes, product_images) -> #merch, #merch2
+              faqs -> #faqs                     contact_messages <- formulir kontak (POST)
+   ============================================================ */
+const API = '/api';
+async function getAll(table) {
+  const r = await fetch(`${API}/${table}?limit=1000`);
+  if (!r.ok) throw new Error(`GET /api/${table} -> ${r.status}`);
+  return (await r.json()).data;
+}
 
-const photos = [
-  ['konser_fimela', 'Reality Club tampil langsung'],
-  ['konser3', 'Poster Reality Club'],
-  ['konser1', 'Konser Reality Club'],
-  ['konser4', 'Reality Club Presents'],
-  ['konser2', 'Konser Reality club'],
-  ['konser13', 'Never Get Better'],
-  ['konser10', 'Reality Club'],
-  ['konser5', 'What Do You Really Know?']
-];
+let members = [], discs = [], shows = [], photos = [], songs = [], merch = [], merch2 = [], allMerch = [], faqs = [];
 
-/* Merchandise baris 1: Best Seller.
-   sizes: daftar ukuran; isi null jika produk tanpa ukuran.
-   imgs (opsional): foto tambahan untuk thumbnail di halaman detail. Foto pertama = foto utama.
-   Contoh: imgs: ['merch_wkwlty', 'merch_wkwlty_belakang']
-   Setiap nama harus ada filenya: images/<nama>.jpeg. Tanpa imgs, thumbnail tidak muncul.
-   CATATAN: harga di bawah masih contoh, silakan sesuaikan. */
-const merch = [
-  { id: 'wkwlty',     name: 'WKWLTY Tee',                price: 180000, img: 'merch_wkwlty', imgs: ['merch_wkwlty', 'merch_wkwlty_belakang', 'merch_wkwlty_sablon', 'merch_wkwlty_kerah'],     sizes: ['S', 'M', 'L', 'XL'], desc: 'Kaos putih dengan sablon merah bertuliskan Who Knows Where Life Will Take You?' },
-  { id: 'longsleeve', name: '10 Years Longsleeve',       price: 299000, img: 'merch_longsleeve', imgs: ['merch_longsleeve', 'merch_longsleeve_d1', 'merch_longsleeve_d2', 'merch_longsleeve_d3'], sizes: ['S', 'M', 'L', 'XL'], desc: 'Longsleeve putih edisi 10 Years of Reality Club dengan ilustrasi pintu merah.' },
-  { id: 'cap',        name: 'WKWLTY Camp Cap',           price: 189000, img: 'merch_cap', imgs: ['merch_cap', 'merch_cap_samping', 'merch_cap_belakang'],        sizes: null,                 desc: 'Topi lima panel hitam dengan bordir Who Knows Where Life Will Take You?' },
-  { id: 'logotee',    name: 'Reality Club Logo Tee',     price: 180000, img: 'merch_logotee', imgs: ['merch_logotee', 'merch_logotee_belakang', 'merch_logotee_sablon', 'merch_logotee_kerah'],    sizes: ['S', 'M', 'L', 'XL'], desc: 'Kaos hitam dengan logo Reality Club abu-abu di bagian dada.' }
-];
+async function loadData() {
+  const [mb, rl, tr, td, gp, pr, ps, pi, fq] = await Promise.all(
+    ['members', 'releases', 'tracks', 'tour_dates', 'gallery_photos', 'products', 'product_sizes', 'product_images', 'faqs'].map(getAll)
+  );
 
-/* Merchandise baris 2: Merch Lainnya (id harus unik) */
-const merch2 = [
-  { id: 'shirt',   name: 'Striped Club Shirt',       price: 350000, img: 'merch_shirt', imgs: ['merch_shirt', 'merch_shirt_belakang', 'merch_shirt_sablon', 'merch_shirt_kerah', 'merch_shirt_lengan'],   sizes: ['S', 'M', 'L', 'XL'], desc: 'Kemeja lengan panjang motif garis dengan tulisan Club merah di dada.' },
-  { id: 'ringer',  name: 'Part of the Club Tee',     price: 190000, img: 'merch_ringer', imgs: ['merch_ringer', 'merch_ringer_sablon', 'merch_ringer_kerah'],  sizes: ['S', 'M', 'L', 'XL'], desc: 'Kaos putih ringer dengan kerah dan lengan merah, bertuliskan Part of the Club.' },
-  { id: 'finding', name: 'Finding Tee',              price: 180000, img: 'merch_finding', imgs: ['merch_finding', 'merch_finding_sablon', 'merch_finding_kerah'], sizes: ['S', 'M', 'L', 'XL'], desc: 'Kaos biru muda dengan desain poster Finding Someone to Love.' },
-  { id: 'belt',    name: 'Part of the Club Belt',    price: 249000, img: 'merch_belt', imgs: ['merch_belt', 'merch_belt_gulung', 'merch_belt_gesper'],    sizes: null,                 desc: 'Sabuk kulit cokelat dengan gesper logam bergambar Club dan tulisan Reality Club.' }
-];
-const allMerch = [...merch, ...merch2];
+  members = mb.map(m => ({ name: m.name, role: m.role, photo: m.photo }));
+  discs = rl.map(r => ({ title: r.title, meta: `${r.type} · ${r.release_year}`, cover: r.cover }));
+  shows = td.map(t => [t.date_label, t.city, t.venue, t.status]);
+  photos = gp.map(g => ({ src: g.image, alt: g.title }));
+  faqs = fq;
 
-$('#members').innerHTML = members.map(([n, r, i]) => `<li><img src="images/${i}.jpeg" alt="${n}" loading="lazy"${i == 'fathia' ? ' style="object-position:top"' : ''}>${n}<small>${r}</small></li>`).join('');
-$('#discs').innerHTML = discs.map(([t, m, i]) => `<article class="card"><div class="th"><span class="ph" aria-hidden="true">♪</span><img src="images/${i}.jpeg" alt="Sampul ${t}" loading="lazy" onerror="this.remove()"></div><h4>${t}</h4><small>${m}</small></article>`).join('');
+  const rel = Object.fromEntries(rl.map(r => [r.id, r]));
+  songs = tr.filter(t => t.audio_file).map(t => {
+    const r = rel[t.release_id] || {};
+    return [t.title, `${r.title || ''} · ${r.release_year || ''}`, t.audio_file, r.cover || ''];
+  });
+
+  allMerch = pr.map(p => {
+    const sizes = ps.filter(z => z.product_id == p.id).map(z => z.size);
+    const imgs = pi.filter(m => m.product_id == p.id).sort((a, b) => a.sort_order - b.sort_order || a.id - b.id).map(m => m.image);
+    return { id: p.slug, name: p.name, price: p.price, img: p.image, imgs: imgs.length ? imgs : [p.image], sizes: sizes.length ? sizes : null, desc: p.description || '', category: p.category };
+  });
+  merch = allMerch.filter(p => p.category == 'best_seller');
+  merch2 = allMerch.filter(p => p.category != 'best_seller');
+}
+
+/* Escape teks dari database sebelum masuk innerHTML */
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+async function main() {
+try { await loadData() } catch (e) { console.error(e); toast('Data belum bisa dimuat dari server. Jalankan: npm start, lalu buka http://localhost:3000') }
+
+$('#members').innerHTML = members.map(m => `<li><img src="${esc(m.photo)}" alt="${esc(m.name)}" loading="lazy"${/fathia/.test(m.photo) ? ' style="object-position:top"' : ''}>${esc(m.name)}<small>${esc(m.role)}</small></li>`).join('');
+$('#discs').innerHTML = discs.map(d => `<article class="card"><div class="th"><span class="ph" aria-hidden="true">♪</span><img src="${esc(d.cover)}" alt="Sampul ${esc(d.title)}" loading="lazy" onerror="this.remove()"></div><h4>${esc(d.title)}</h4><small>${esc(d.meta)}</small></article>`).join('');
 const firstNext = shows.findIndex(x => x[3] == 'next');
-$('#shows').innerHTML = shows.map(([d, c, v, st], i) => `<li class="${st == 'done' ? 'done' : i == firstNext ? 'up' : ''}"><time>${d}</time><div><b>${c}</b><span>${v}</span></div><span class="badge ${st}">${st == 'done' ? 'Selesai' : 'Akan datang'}</span></li>`).join('');
+$('#shows').innerHTML = shows.map(([d, c, v, st], i) => `<li class="${st == 'done' ? 'done' : i == firstNext ? 'up' : ''}"><time>${esc(d)}</time><div><b>${esc(c)}</b><span>${esc(v)}</span></div><span class="badge ${st}">${st == 'done' ? 'Selesai' : 'Akan datang'}</span></li>`).join('');
 const nc = $('#nextCard');
-if (firstNext >= 0) { const [d, c, v] = shows[firstNext]; nc.innerHTML = `<small>Konser berikutnya</small><b>${c}</b><span>${d} · ${v}</span>`; nc.hidden = false }
+if (firstNext >= 0) { const [d, c, v] = shows[firstNext]; nc.innerHTML = `<small>Konser berikutnya</small><b>${esc(c)}</b><span>${esc(d)} · ${esc(v)}</span>`; nc.hidden = false }
 
 /* Galeri */
-$('#photos').innerHTML = photos.map(([i, a]) => `<button data-src="images/${i}.jpeg"><img src="images/${i}.jpeg" alt="${a}" loading="lazy"></button>`).join('');
+$('#photos').innerHTML = photos.map(p => `<button data-src="${esc(p.src)}"><img src="${esc(p.src)}" alt="${esc(p.alt)}" loading="lazy"></button>`).join('');
+
+/* FAQ dari tabel faqs (isi HTML statis dipertahankan bila tabel kosong / server mati) */
+if (faqs.length) $('#faqs').innerHTML = faqs.map(f => `<details><summary>${esc(f.question)}</summary><p>${esc(f.answer)}</p></details>`).join('');
 
 /* Merchandise: satu fungsi kartu dipakai untuk kedua baris */
 const merchCard = p => `
-  <a class="card merch" href="#produk-${p.id}" aria-label="Lihat ${p.name}">
-    <div class="th"><img src="images/${p.img}.jpeg" alt="${p.name}" loading="lazy"></div>
-    <h4>${p.name}</h4>
+  <a class="card merch" href="#produk-${esc(p.id)}" aria-label="Lihat ${esc(p.name)}">
+    <div class="th"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy"></div>
+    <h4>${esc(p.name)}</h4>
     <p class="price">${rp(p.price)}</p>
   </a>`;
 $('#merch').innerHTML = merch.map(merchCard).join('');
@@ -85,14 +93,7 @@ $$('main section').forEach(s => io.observe(s));
 
 /* Pemutar musik: memutar file audio langsung di website.
    Taruh file mp3 di folder audio/. Format: [judul, keterangan, nama file tanpa .mp3, nama gambar sampul di images/] */
-const songs = [
-  ['Am I Bothering You?', 'Reality Club Presents… · 2023', 'am-i-bothering-you', 'albumrcp'],
-  ['Anything You Want', 'Anything You W · 2022', 'anything-you-want', 'albumayw'],
-  ['Is It the Answer?', 'Never Get Better · 2017', 'is-it-the-answer', 'albumngb'],
-  ['A Sorrowfull Reunion', 'What Do You Really Know? · 2019', 'a-sorrowfull-reunion', 'albumwdrk'],
-  ['2112', 'What Do You Really Know? · 2019', '2112', 'albumwdrk']
-];
-$('#songList').innerHTML = songs.map((s, i) => `<li><button data-i="${i}"><span class="n">${i + 1}</span><span class="tt"><b>${s[0]}</b><small>${s[1]}</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li>`).join('');
+$('#songList').innerHTML = songs.map((s, i) => `<li><button data-i="${i}"><span class="n">${i + 1}</span><span class="tt"><b>${esc(s[0])}</b><small>${esc(s[1])}</small></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></button></li>`).join('');
 
 const au = $('#audio'), seek = $('#seek'), pl = $('#player'), cv = $('#coverImg');
 let cur = 0, loaded = -1, seeking = false;
@@ -101,7 +102,7 @@ cv.onload = () => cv.style.display = ''; cv.onerror = () => cv.style.display = '
 function show(i) {
   cur = i; const s = songs[i];
   $('#nowT').textContent = s[0]; $('#nowA').textContent = s[1];
-  cv.src = `images/${s[3]}.jpeg`;
+  cv.src = s[3];
   $$('#songList button').forEach(b => b.classList.toggle('on', +b.dataset.i == i));
   seek.value = 0; $('#tm').textContent = '0:00';
 }
@@ -132,7 +133,7 @@ au.onerror = () => { pl.classList.remove('is-playing'); toast('File lagu belum a
 seek.oninput = () => { seeking = true; $('#tm').textContent = fmt(+seek.value) + ' / ' + fmt(+seek.max) };
 seek.onchange = () => { au.currentTime = +seek.value; seeking = false };
 if ('mediaSession' in navigator) { const ms = navigator.mediaSession; ms.setActionHandler('play', toggle); ms.setActionHandler('pause', toggle); ms.setActionHandler('previoustrack', prev); ms.setActionHandler('nexttrack', next) }
-show(0);
+if (songs.length) show(0);
 
 /* Video: muat YouTube hanya saat diklik */
 $$('.yt').forEach(el => {
@@ -160,7 +161,7 @@ function draw() {
     if (!p) { delete cart[k]; return ''; }   // buang data keranjang lama yang tidak cocok
     const q = cart[k]; tot += p.price * q; n += q;
     const label = p.name + (size ? ' · ' + size : '');
-    return `<li><img src="images/${p.img}.jpeg" alt=""><div>${label}<br><small>${rp(p.price)} × ${q}</small></div><button data-rm="${k}" aria-label="Kurangi ${label}">−</button><button data-up="${k}" aria-label="Tambah ${label}">+</button></li>`;
+    return `<li><img src="${esc(p.img)}" alt=""><div>${esc(label)}<br><small>${rp(p.price)} × ${q}</small></div><button data-rm="${k}" aria-label="Kurangi ${label}">−</button><button data-up="${k}" aria-label="Tambah ${label}">+</button></li>`;
   }).filter(Boolean);
   $('#cartList').innerHTML = rows.length ? rows.join('') : '<li>Keranjang masih kosong. Pilih merchandise dulu.</li>';
   $('#cartCount').textContent = n; $('#cartTotal').textContent = rp(tot);
@@ -187,16 +188,16 @@ function openPdp(id) {
   const imgs = (p.imgs && p.imgs.length) ? p.imgs : [p.img];
   pdpBody.innerHTML = `
     <div class="pdp-gal">
-      <div class="pdp-main"><img id="pdpImg" src="images/${imgs[0]}.jpeg" alt="${p.name}"></div>
-      ${imgs.length > 1 ? `<div class="pdp-thumbs" role="group" aria-label="Foto produk">${imgs.map((m, i) => `<button type="button" class="${i ? '' : 'on'}" data-img="${m}" aria-label="Foto ${i + 1}"><img src="images/${m}.jpeg" alt="" onerror="this.parentNode.remove()"></button>`).join('')}</div>` : ''}
+      <div class="pdp-main"><img id="pdpImg" src="${esc(imgs[0])}" alt="${esc(p.name)}"></div>
+      ${imgs.length > 1 ? `<div class="pdp-thumbs" role="group" aria-label="Foto produk">${imgs.map((m, i) => `<button type="button" class="${i ? '' : 'on'}" data-img="${esc(m)}" aria-label="Foto ${i + 1}"><img src="${esc(m)}" alt="" onerror="this.parentNode.remove()"></button>`).join('')}</div>` : ''}
     </div>
     <div class="pdp-info">
       <span class="pdp-badge">Tersedia</span>
-      <div class="pdp-row"><h2>${p.name}</h2>
+      <div class="pdp-row"><h2>${esc(p.name)}</h2>
         <button type="button" class="ic-fav" data-fav aria-pressed="false" aria-label="Favorit"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z"/></svg></button>
       </div>
       <p class="pdp-price">${rp(p.price)}</p>
-      ${p.sizes ? `<p class="pdp-label">Ukuran</p><div class="sizes" role="radiogroup" aria-label="Pilih ukuran">${p.sizes.map(z => `<button type="button" class="size" role="radio" aria-checked="false" data-size="${z}">${z}</button>`).join('')}</div>` : ''}
+      ${p.sizes ? `<p class="pdp-label">Ukuran</p><div class="sizes" role="radiogroup" aria-label="Pilih ukuran">${p.sizes.map(z => `<button type="button" class="size" role="radio" aria-checked="false" data-size="${esc(z)}">${esc(z)}</button>`).join('')}</div>` : ''}
       <p class="pdp-label">Jumlah</p>
       <div class="qty" role="group" aria-label="Jumlah">
         <button type="button" data-q="-1" aria-label="Kurangi jumlah">−</button>
@@ -206,7 +207,7 @@ function openPdp(id) {
       <button type="button" class="btn pdp-add" data-act="add">Tambah ke keranjang</button>
       <button type="button" class="btn pdp-buy" data-act="buy">Beli sekarang</button>
       <h3>Deskripsi</h3>
-      <p class="pdp-desc">${p.desc || ''}</p>
+      <p class="pdp-desc">${esc(p.desc)}</p>
     </div>`;
   pdp.hidden = false; pdp.scrollTop = 0;
   document.documentElement.style.overflow = 'hidden';
@@ -229,7 +230,7 @@ $('#pdpCart').onclick = () => cartOpen(true);
 pdpBody.onclick = e => {
   const t = e.target;
   const th = t.closest('[data-img]');
-  if (th) { $('#pdpImg').src = `images/${th.dataset.img}.jpeg`; $$('.pdp-thumbs button').forEach(b => b.classList.toggle('on', b === th)); return }
+  if (th) { $('#pdpImg').src = th.dataset.img; $$('.pdp-thumbs button').forEach(b => b.classList.toggle('on', b === th)); return }
   if (t.closest('.pdp-main')) { $('img', lb).src = $('#pdpImg').src; lb.hidden = false; return }
   const fav = t.closest('[data-fav]');
   if (fav) { const on = fav.classList.toggle('on'); fav.setAttribute('aria-pressed', on); return toast(on ? 'Ditambah ke favorit' : 'Dihapus dari favorit') }
@@ -258,13 +259,20 @@ $('#checkout').onclick = () => toast(Object.keys(cart).length ? 'Checkout segera
 document.onkeydown = e => { if (e.key == 'Escape') { const wasCart = !dr.hidden; cartOpen(false); lb.hidden = true; if (!wasCart && !pdp.hidden) closePdp() } };
 draw();
 
-/* Formulir kontak */
-$('#form').onsubmit = e => {
-  e.preventDefault(); const n = $('#cn').value.trim(), m = $('#ce').value.trim(), t = $('#cm').value.trim(), er = $('#err');
+/* Formulir kontak -> disimpan ke tabel contact_messages (POST /api/contact_messages) */
+$('#form').onsubmit = async e => {
+  e.preventDefault(); const f = e.target, n = $('#cn').value.trim(), m = $('#ce').value.trim(), t = $('#cm').value.trim(), er = $('#err');
   if (!n || !m || !t) return er.textContent = 'Isi nama, email, dan pesan terlebih dulu.';
   if (!/^\S+@\S+\.\S+$/.test(m)) return er.textContent = 'Format email belum benar, contoh: nama@domain.com.';
-  er.textContent = ''; e.target.reset(); toast('Pesan terkirim. Terima kasih, ' + n + '!')
+  er.textContent = '';
+  try {
+    const r = await fetch(`${API}/contact_messages`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, email: m, message: t }) });
+    if (!r.ok) { const j = await r.json().catch(() => ({})); return er.textContent = j.error || 'Pesan gagal dikirim, coba lagi.' }
+    f.reset(); toast('Pesan terkirim. Terima kasih, ' + n + '!');
+  } catch (x) { er.textContent = 'Tidak bisa terhubung ke server. Pastikan backend berjalan (npm start).' }
 };
 
 addEventListener('scroll', () => $('#nav').classList.toggle('solid', scrollY > 60), { passive: true }); $('#nav').classList.toggle('solid', scrollY > 60);
 route(false);
+}
+main();

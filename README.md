@@ -3,7 +3,7 @@
 Website resmi band **Reality Club** (HTML/CSS/JS) yang ditambah lapisan **basis data
 SQLite** dan **operasi CRUD** untuk seluruh tabelnya, lengkap dengan REST API dan panel admin.
 
-> Catatan: `website/` adalah situs statis Reality Club versi terbaru (data tertanam di `script.js`). Skema
+> Catatan: `website/` adalah situs Reality Club versi terbaru. Sejak tahap integrasi, **data tampil dibaca dari basis data lewat REST API** (`fetch('/api/...')` di `script.js`), bukan lagi data manual. Skema
 > tabel diturunkan dari konten situs itu (personel, diskografi, lagu, jadwal tur, galeri, merchandise
 > beserta ukuran dan foto, pesan kontak, FAQ). File audio (`audio/*.mp3`) tidak ikut repositori karena
 > besar; salin ke `website/audio/` agar pemutar musik berfungsi.
@@ -79,6 +79,24 @@ curl -X DELETE http://localhost:3000/api/faqs/4
 
 Buka `http://localhost:3000/admin/` — sidebar berisi 10 tabel; tiap tabel mendukung pencarian, paging,
 **Detail** (Read), **+ Tambah** (Create), **Edit** (Update), dan **Hapus** (Delete, dengan konfirmasi).
+
+## Integrasi website ↔ basis data
+
+`website/script.js` memanggil API backend saat halaman dibuka lalu merender HTML secara otomatis.
+
+| Bagian website | Endpoint (tabel) |
+|---|---|
+| Personel (`#members`) | `GET /api/members` |
+| Diskografi (`#discs`) | `GET /api/releases` |
+| Pemutar musik (`#songList`) | `GET /api/tracks` (+ `releases` untuk judul/tahun/sampul) |
+| Jadwal tur + kartu "Konser berikutnya" | `GET /api/tour_dates` |
+| Galeri (`#photos`) | `GET /api/gallery_photos` |
+| Merchandise (`#merch`, `#merch2`, halaman detail) | `GET /api/products`, `/api/product_sizes`, `/api/product_images` |
+| FAQ (`#faqs`) | `GET /api/faqs` |
+| Formulir kontak | `POST /api/contact_messages` |
+
+Ubah data lewat panel admin (`/admin/`), lalu muat ulang website: tampilan ikut berubah.
+Website harus dibuka lewat server (`http://localhost:3000`), bukan dengan klik dua kali `realityclub.html`.
 
 ## Pengujian
 
